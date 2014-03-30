@@ -26,5 +26,7 @@ The CentOS target version comes from the GIT branch you created in your GIT repo
 
 For an automatic build for all architectures you should take considerations about Plague which is done for that.
 
+Each time you execute the script, the GIT branch in use is tagged with the version of the RPM.
+
 
 
