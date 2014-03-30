@@ -1,7 +1,7 @@
 #!/bin/bash
 ##############################################################################################
-## a big thank to daniel berteaud from firewall-service who started in first to write this script
-## the purpose of this script is to create a targ.gz from the GIT folder in order to build a rpm
+## a big thank to daniel berteaud from firewall-service who have  written this script
+## the purpose is to create a targ.gz from the GIT folder in order to build a rpm
 ## then after mock is used to make the rpm in a chroot  
 ##############################################################################################
 # git_mockbuild     [ MOCKCONF ]    [ CentOS_Version ]
