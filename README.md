@@ -14,7 +14,7 @@ you can	use this command line in case of many folders and subfolders
 
  find * -type d -empty -exec touch {}/.gitignore \;
 
-Once you want to make the RPM then	simply use git_mockbuild without arguments in the root folder of your git repository, the architecture of build come from the spec file. But if needed you can  choose another build arch. You have to choose one argument.
+Once you want to make the RPM then simply use git_mockbuild without arguments in the root folder of your git repository, the architecture of build come from the spec file. But if needed you can  choose another build arch. You have to choose one argument.
 
  git_mockbuild
 or
