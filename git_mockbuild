@@ -65,19 +65,58 @@ echo "=============================================================="
 echo "The build RPM architecture is $ARCH" 
 echo "The target CentOS version is $DIST"
 
-if [[ $ARCH == "noarch" && "$DIST" == "el5" ]]; then
-    MOCKCONF="smeserver-8-i386-base"
-elif [[ $ARCH == "i386" && "$DIST" == "el5" ]]; then
-    MOCKCONF="smeserver-8-i386-base"
-elif [[ $ARCH == "x86_64" && "$DIST" == "el5" ]]; then
-    MOCKCONF="smeserver-8-x86_64-base"
-elif [[ $ARCH == "noarch" && "$DIST" == "el6" ]]; then
-    MOCKCONF="smeserver-9-i386-base"
-elif [[ $ARCH == "i386" && "$DIST" == "el6" ]]; then
-    MOCKCONF="smeserver-9-i386-base"
-elif [[ $ARCH == "x86_64" && "$DIST" == "el6" ]]; then
-    MOCKCONF="smeserver-9-x86_64-base"
+#if [[ $ARCH == "noarch" && "$DIST" == "el5" ]]; then
+#    MOCKCONF="smeserver-8-i386-base"
+#elif [[ $ARCH == "i386" && "$DIST" == "el5" ]]; then
+#    MOCKCONF="smeserver-8-i386-base"
+#elif [[ $ARCH == "x86_64" && "$DIST" == "el5" ]]; then
+#    MOCKCONF="smeserver-8-x86_64-base"
+#elif [[ $ARCH == "noarch" && "$DIST" == "el6" ]]; then
+#    MOCKCONF="smeserver-9-i386-base"
+#elif [[ $ARCH == "i386" && "$DIST" == "el6" ]]; then
+#    MOCKCONF="smeserver-9-i386-base"
+#elif [[ $ARCH == "x86_64" && "$DIST" == "el6" ]]; then
+#    MOCKCONF="smeserver-9-x86_64-base"
+#fi
+
+if [ $DIST = "el5"]; then
+    if [ $ARCH = "noarch"]; then
+        MOCKCONF="smeserver-8-i386-base"
+    elif [ $ARCH = "x86_64"]; then
+        MOCKCONF="smeserver-8-x86_64-base"
+    else
+        MOCKCONF="smeserver-8-i386-base"
+    fi;
+elif [ $DIST = "el9"]; then
+    if [ $ARCH = "noarch"]; then
+        MOCKCONF="smeserver-9-i386-base"
+    elif [ $ARCH = "x86_64"]; then
+        MOCKCONF="smeserver-9-x86_64-base"
+    else
+        MOCKCONF="smeserver-9-i386-base"
+    fi;
 fi
+
+## If there is a second arg, use it as the location
+#if ! [ -z "$2" ]; then 
+#        location=$2
+#fi
+
+# If first arg is a number, then set days.
+#if ! [ -z "$1" ]; then 
+#        if [[ $1 =~ $re ]] ; then       
+#                days=$1
+#        else
+#                location=$1
+#        fi;     
+#fi
+
+if ! [ -z "$1" ]; then
+    MOCKCONF=$1
+fi
+
+
+
 
 echo "The mock chroot configuration used is  $MOCKCONF"
 echo "=============================================================="
