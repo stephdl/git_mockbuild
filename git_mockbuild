@@ -1,8 +1,11 @@
 #!/bin/bash
 ##############################################################################################
 ## a big thank to daniel berteaud from firewall-service who started in first to write this script
-## the purpose of this script is to create a targ.gz in GIT folder in order to build a rpm  
+## the purpose of this script is to create a targ.gz from the GIT folder in order to build a rpm
+## then after mock is used to make the rpm in a chroot  
 ##############################################################################################
+# git_mockbuild     [ MOCKCONF ]    [ CentOS_Version ]
+# parameters are optional
 ME=$(whoami)
 
 # What is the package name
@@ -18,7 +21,7 @@ RELEASE=$(rpm -q --qf "%{release}\n" --specfile $PACKAGE.spec | head -1)
 BRANCH=$(git branch | grep '*' | cut -d' ' -f2)
 
 # Find the centos version
-DIST=$1
+DIST=$2
 if [[ -z $DIST && "$BRANCH" == "sme9" ]]; then
     DIST="el6"
 elif [ -z $DIST ]; then
@@ -52,6 +55,9 @@ cp $TMPDIR/$PACKAGE-$VERSION.tar.gz ~/rpmbuild/SOURCES/$PACKAGE-$VERSION.tar.gz
 cp $PACKAGE.spec ~/rpmbuild/SPECS/
 
 # And build
+echo""
+echo "0.Tips"
+echo 'you can choose another build architecture : git_mockbuild sme8-i386 sme8-x86_64 sme9-i386 sme9-x86_64'
 echo ""
 echo "1.Build the src.rpm"
 echo ""
@@ -65,26 +71,12 @@ echo "=============================================================="
 echo "The build RPM architecture is $ARCH" 
 echo "The target CentOS version is $DIST"
 
-#if [[ $ARCH == "noarch" && "$DIST" == "el5" ]]; then
-#    MOCKCONF="smeserver-8-i386-base"
-#elif [[ $ARCH == "i386" && "$DIST" == "el5" ]]; then
-#    MOCKCONF="smeserver-8-i386-base"
-#elif [[ $ARCH == "x86_64" && "$DIST" == "el5" ]]; then
-#    MOCKCONF="smeserver-8-x86_64-base"
-#elif [[ $ARCH == "noarch" && "$DIST" == "el6" ]]; then
-#    MOCKCONF="smeserver-9-i386-base"
-#elif [[ $ARCH == "i386" && "$DIST" == "el6" ]]; then
-#    MOCKCONF="smeserver-9-i386-base"
-#elif [[ $ARCH == "x86_64" && "$DIST" == "el6" ]]; then
-#    MOCKCONF="smeserver-9-x86_64-base"
-#fi
-
 if [ "$DIST" == "el5" ]; then
     if [ "$ARCH" == "noarch" ]; then
         MOCKCONF="smeserver-8-i386-base"
     elif [ "$ARCH" == "x86_64" ]; then
         MOCKCONF="smeserver-8-x86_64-base"
-    else
+    elif [ "$ARCH" == "i386" ]; then
         MOCKCONF="smeserver-8-i386-base"
     fi;
 elif [ "$DIST" == "el9" ]; then
@@ -92,36 +84,28 @@ elif [ "$DIST" == "el9" ]; then
         MOCKCONF="smeserver-9-i386-base"
     elif [ "$ARCH" == "x86_64" ]; then
         MOCKCONF="smeserver-9-x86_64-base"
-    else
+    elif [ "$ARCH" == "i386" ]; then
         MOCKCONF="smeserver-9-i386-base"
     fi;
 fi
 
-## If there is a second arg, use it as the location
-#if ! [ -z "$2" ]; then 
-#        location=$2
-#fi
-
-# If first arg is a number, then set days.
-#if ! [ -z "$1" ]; then 
-#        if [[ $1 =~ $re ]] ; then       
-#                days=$1
-#        else
-#                location=$1
-#        fi;     
-#fi
 
 if ! [ -z "$1" ]; then
-    MOCKCONF=$1
+    if [ $1 = "sme8-i386" ]; then
+        MOCKCONF="smeserver-8-i386-base"
+    elif [ $1 = "sme8-x86_64" ]; then
+        MOCKCONF="smeserver-8-x86_64-base"
+    elif [ $1 = "sme9-i386" ]; then
+        MOCKCONF="smeserver-9-i386-base"
+    elif [ $1 = "sme9-x86_64" ]; then
+        MOCKCONF="smeserver-9-x86_64-base"
+    fi;
 fi
-
-
-
 
 echo "The mock chroot configuration used is  $MOCKCONF"
 echo "=============================================================="
 echo ""
-mock -r $MOCKCONF --rebuild ~/rpmbuild/SRPMS/$PACKAGE-$VERSION-*.src.rpm --resultdir=/home/$ME/exchange/$PACKAGE-$VERSION.$DIST.$ARCH
+mock -r $MOCKCONF --rebuild ~/rpmbuild/SRPMS/$PACKAGE-$VERSION-*.src.rpm --resultdir=/home/$ME/exchange/$PACKAGE-$VERSION
 
 # a bit of clean
 
@@ -131,12 +115,12 @@ rm -rf $TMPDIR  ~/$PACKAGE-$VERSION
 # we give the path where are files
 echo ""
 echo "=================================================================================================================="
-echo "RPMS are in /home/$ME/exchange/$PACKAGE-$VERSION.$DIST.$ARCH of your build server"
+echo "RPMS are in /home/$ME/exchange/$PACKAGE-$VERSION of your build server"
 echo ""
-ls -1 ~/exchange/$PACKAGE-$VERSION.$DIST.$ARCH/*.rpm
+ls -1 ~/exchange/$PACKAGE-$VERSION/*.rpm
 echo "=================================================================================================================="
 
 # and we sign rpm if needed, if not simply do 'enter' with keyboard
 echo ""
 echo "3.Sign your rpms"
-rpm --resign ~/exchange/$PACKAGE-$VERSION.$DIST.$ARCH/*.rpm 2>&1 > /dev/null
+rpm --resign ~/exchange/$PACKAGE-$VERSION/*.rpm 2>&1 > /dev/null
