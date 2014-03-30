@@ -1,6 +1,6 @@
 #!/bin/bash
 ##############################################################################################
-## a big thank to daniel berteaud from firewall-service who write this script
+## a big thank to daniel berteaud from firewall-service who started in first to write this script
 ## the purpose of this script is to create a targ.gz in GIT folder in order to build a rpm  
 ##############################################################################################
 ME=$(whoami)
@@ -79,18 +79,18 @@ echo "The target CentOS version is $DIST"
 #    MOCKCONF="smeserver-9-x86_64-base"
 #fi
 
-if [ $DIST = "el5"]; then
-    if [ $ARCH = "noarch"]; then
+if [ "$DIST" == "el5" ]; then
+    if [ "$ARCH" == "noarch" ]; then
         MOCKCONF="smeserver-8-i386-base"
-    elif [ $ARCH = "x86_64"]; then
+    elif [ "$ARCH" == "x86_64" ]; then
         MOCKCONF="smeserver-8-x86_64-base"
     else
         MOCKCONF="smeserver-8-i386-base"
     fi;
-elif [ $DIST = "el9"]; then
-    if [ $ARCH = "noarch"]; then
+elif [ "$DIST" == "el9" ]; then
+    if [ "$ARCH" == "noarch" ]; then
         MOCKCONF="smeserver-9-i386-base"
-    elif [ $ARCH = "x86_64"]; then
+    elif [ "$ARCH" == "x86_64" ]; then
         MOCKCONF="smeserver-9-x86_64-base"
     else
         MOCKCONF="smeserver-9-i386-base"
