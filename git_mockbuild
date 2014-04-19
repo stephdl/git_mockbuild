@@ -1,10 +1,10 @@
 #!/bin/bash
 ##############################################################################################
-## a big thank to daniel berteaud from firewall-service who have  written this script
-## the purpose is to create a targ.gz from the GIT folder in order to build a rpm
+## a big thank to daniel berteaud from firewall-service who started in first to write this script
+## the purpose of this script is to create a targ.gz from the GIT folder in order to build a rpm
 ## then after mock is used to make the rpm in a chroot  
 ##############################################################################################
-# git_mockbuild     [ MOCKCONF ]    [ CentOS_Version ]
+# git_mockbuild     [ MOCKCONF ]    [ SME_Version ]
 # parameters are optional
 ME=$(whoami)
 
@@ -57,6 +57,7 @@ cp $PACKAGE.spec ~/rpmbuild/SPECS/
 # And build
 echo""
 echo "0.Tips"
+echo "# git_mockbuild     [ MOCKCONF ]"
 echo 'you can choose another build architecture : git_mockbuild sme8-i386 sme8-x86_64 sme9-i386 sme9-x86_64'
 echo ""
 echo "1.Build the src.rpm"
@@ -79,7 +80,7 @@ if [ "$DIST" == "el5" ]; then
     elif [ "$ARCH" == "i386" ]; then
         MOCKCONF="smeserver-8-i386-base"
     fi;
-elif [ "$DIST" == "el9" ]; then
+elif [ "$DIST" == "el6" ]; then
     if [ "$ARCH" == "noarch" ]; then
         MOCKCONF="smeserver-9-i386-base"
     elif [ "$ARCH" == "x86_64" ]; then
