@@ -18,7 +18,7 @@ Once you want to make the RPM then simply use git_mockbuild without arguments in
 
  git_mockbuild
 or
- git_mockbuild sme8-i386 sme8-x86_64 sme9-i386 sme9-x86_64
+ git_mockbuild sme8-386 sme8-64 sme9-386 sme9-64
 
 by default if the build architecture is not specified in the spec file, it is the case of packages which are not 'noarch', the RPM will be make by mock with the same architecture of your build server. Therefore you have to specify which arch you want if you need another rpm architecture (eg i386 instead of x86_64)
 
