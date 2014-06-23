@@ -33,7 +33,10 @@ TMPDIR=$(mktemp -d)
 mkdir -p $TMPDIR/$PACKAGE-$VERSION/
 
 # Tag GIT using the version in the spec file
-TAG=$VERSION"_"$DIST
+##we do a hack to retrieve the release without %{?dist}
+RELEASETAG=${RELEASE/.el6/}
+
+TAG=$VERSION"-"$RELEASETAG"_"$DIST
 git tag -f $TAG 2>&1 > /dev/null
 
 # Create needed dirs on the build box
