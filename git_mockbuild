@@ -61,7 +61,7 @@ cp $PACKAGE.spec ~/rpmbuild/SPECS/
 echo""
 echo "0.Tips"
 echo "# git_mockbuild     [ MOCKCONF ]    [ SME_Server_version ]"
-echo 'you can choose another build architecture : git_mockbuild sme8-386 sme8-64 sme9-386 sme9-64'
+echo 'you can choose another build architecture : git_mockbuild sme8-386 sme8-64 sme9-386 sme9-64 epel-6-x86_64 epel-6-i386 epel-5-x86_64 epel-5-i386  '
 echo 'you can choose which SME_Server target version you want : sme8 sme9'
 echo ""
 echo "1.Build the src.rpm"
@@ -104,6 +104,14 @@ if ! [ -z "$1" ]; then
         MOCKCONF="smeserver-9-i386-base"
     elif [ $1 = "sme9-64" ]; then
         MOCKCONF="smeserver-9-x86_64-base"
+    elif [ $1 = "epel-6-x86_64" ]; then
+        MOCKCONF="epel-6-x86_64"
+    elif [ $1 = "epel-6-i386" ]; then
+        MOCKCONF="epel-6-i386"
+    elif [ $1 = "epel-5-x86_64" ]; then
+        MOCKCONF="epel-5-x86_64"
+    elif [ $1 = "epel-5-i386" ]; then
+        MOCKCONF="epel-5-i386"
     fi;
 fi
 
