@@ -22,8 +22,11 @@ BRANCH=$(git branch | grep '*' | cut -d' ' -f2)
 
 # Find the centos version
 DIST=$2
+
 if [[ -z $DIST && "$BRANCH" =~ "sme9" ]]; then
     DIST="el6"
+elif [[ -z $DIST && "$BRANCH" =~ "ns6" ]]; then
+    DIST="ns6"
 elif [ -z $DIST ]; then
     DIST="el5"
 fi
@@ -92,6 +95,8 @@ elif [ "$DIST" == "el6" ]; then
     elif [ "$ARCH" == "i386" ]; then
         MOCKCONF="smeserver-9-i386-base"
     fi;
+elif [ "$DIST" == "ns6" ]; then
+        MOCKCONF="nethserver-6.6-x86_64"
 fi
 
 
