@@ -62,7 +62,7 @@ cp $PACKAGE.spec ~/rpmbuild/SPECS/
 
 ##copy a list of files to SOURCES when patches or archives are not in the root folder
 ls > /tmp/$PACKAGE-$VERSION
-cp -f $(</tmp/$PACKAGE-$VERSION) ~/rpmbuild/SOURCES/
+cp -Rf $(</tmp/$PACKAGE-$VERSION) ~/rpmbuild/SOURCES/
 
 # And build
 echo""
@@ -132,7 +132,8 @@ mock -r $MOCKCONF --rebuild ~/rpmbuild/SRPMS/$PACKAGE-$VERSION-*.src.rpm --resul
 # a bit of clean
 
 rm -f  ~/rpmbuild/SPECS/$PACKAGE.spec ~/rpmbuild/SOURCES/$PACKAGE-$VERSION.tar.gz ~/rpmbuild/SRPMS/$PACKAGE-$VERSION*.src.rpm
-rm -rf $TMPDIR  ~/$PACKAGE-$VERSION 
+rm -rf $TMPDIR  ~/rpmbuild/SOURCES/$PACKAGE-$VERSION
+
 # clean ~/rpmbuild/SOURCES when patches or archives are not in the root folder
 cd ~/rpmbuild/SOURCES/
 rm -rf $(</tmp/$PACKAGE-$VERSION)
