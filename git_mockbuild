@@ -60,6 +60,10 @@ tar czf $TMPDIR/$PACKAGE-$VERSION.tar.gz -C $TMPDIR $PACKAGE-$VERSION
 cp $TMPDIR/$PACKAGE-$VERSION.tar.gz ~/rpmbuild/SOURCES/$PACKAGE-$VERSION.tar.gz
 cp $PACKAGE.spec ~/rpmbuild/SPECS/
 
+##copy a list of files to SOURCES when patches or archives are not in the root folder
+ls > /tmp/$PACKAGE-$VERSION
+cp -f $(</tmp/$PACKAGE-$VERSION) ~/rpmbuild/SOURCES/
+
 # And build
 echo""
 echo "0.Tips"
@@ -129,6 +133,11 @@ mock -r $MOCKCONF --rebuild ~/rpmbuild/SRPMS/$PACKAGE-$VERSION-*.src.rpm --resul
 
 rm -f  ~/rpmbuild/SPECS/$PACKAGE.spec ~/rpmbuild/SOURCES/$PACKAGE-$VERSION.tar.gz ~/rpmbuild/SRPMS/$PACKAGE-$VERSION*.src.rpm
 rm -rf $TMPDIR  ~/$PACKAGE-$VERSION 
+# clean ~/rpmbuild/SOURCES when patches or archives are not in the root folder
+cd ~/rpmbuild/SOURCES/
+rm -rf $(</tmp/$PACKAGE-$VERSION)
+#remove the file list
+rm -rf /tmp/$PACKAGE-$VERSION
 
 # we give the path where are files
 echo ""
